@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert JPG to PDF. Images JPG to PDF online - iLovePDF Clone</title>
+  <meta name="description" content="Convert JPG images to PDF, rotate them or set a page margin. Convert JPG to PDF online, easily and free.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23e5322d' d='M50 85s-35-21.7-35-46.7A21.7 21.7 0 0 1 50 20.3 21.7 21.7 0 0 1 85 38.3C85 63.3 50 85 50 85z'/></svg>">
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Fallback & Local libraries for 100% offline & fast usage -->
+  <script src="lib/sortable.min.js"></script>
+  <script src="lib/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="header">
+    <div class="header__container">
+      <a href="#" class="brand" title="iLovePDF">
+        <!-- SVG Heart Logo -->
+        <svg class="brand__logo-icon" viewBox="0 0 40 40" fill="currentColor">
+          <path d="M20 36.5C19.3 36.5 4 25.8 4 14.8C4 8.8 8.8 4 14.8 4C17.7 4 20.4 5.3 22.2 7.4C24 5.3 26.7 4 29.6 4C35.6 4 40.4 8.8 40.4 14.8C40.4 25.8 25.1 36.5 24.4 36.5H20Z"/>
+        </svg>
+        <span class="brand__text">iLove<span>PDF</span></span>
+      </a>
+
+      <ul class="nav__menu">
+        <li><a href="#" class="nav__link">Merge PDF</a></li>
+        <li><a href="#" class="nav__link">Split PDF</a></li>
+        <li><a href="#" class="nav__link">Compress PDF</a></li>
+        <li><a href="#" class="nav__link active">Convert PDF <span class="badge">JPG to PDF</span></a></li>
+        <li><a href="#" class="nav__link">All PDF Tools</a></li>
+      </ul>
+
+      <div class="header__actions">
+        <a href="javascript:void(0)" class="btn-secondary">Login</a>
+        <a href="javascript:void(0)" class="btn-primary-sm">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fullscreen Drag & Drop Overlay -->
+  <div id="dragOverlay" class="drag-overlay">
+    <div class="drag-overlay__content">
+      <svg class="drag-overlay__icon" viewBox="0 0 24 24">
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+      </svg>
+      <div class="drag-overlay__title">Drop images here</div>
+      <div class="drag-overlay__subtitle">Add your JPG, PNG, or WebP images to convert</div>
+    </div>
+  </div>
+
+  <main class="main">
+    <!-- Hidden File Input for Multiple Images -->
+    <input type="file" id="fileInput" class="hidden-file-input" multiple accept="image/jpeg,image/png,image/webp,image/gif,image/bmp">
+
+    <!-- 1. LANDING VIEW -->
+    <section id="landingView" class="landing-view">
+      <div class="hero-section">
+        <h1 class="hero__title">JPG to PDF</h1>
+        <h2 class="hero__subtitle">Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</h2>
+
+        <div class="uploader-area">
+          <div class="upload-button-wrapper">
+            <button id="btnSelectFiles" class="btn-select-files" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Select JPG images</span>
+            </button>
+
+            <div class="uploader__cloud-btns">
+              <!-- Device Icon -->
+              <div class="cloud-btn" title="Upload from Computer" onclick="document.getElementById('fileInput').click()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <!-- Google Drive Icon -->
+              <div class="cloud-btn" title="Google Drive" onclick="alert('Google Drive integration: Select local images directly or drag & drop!')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.71 3.5L1.15 15l3.43 6 6.55-11.5L7.71 3.5zm4.87 0l6.55 11.5h6.87l-6.55-11.5H12.58zm-1.72 12l-3.43 6h13.72l3.43-6H10.86z"/>
+                </svg>
+              </div>
+              <!-- Dropbox Icon -->
+              <div class="cloud-btn" title="Dropbox" onclick="alert('Dropbox integration: Select local images directly or drag & drop!')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.05 3.5L0 8.08l4.95 4.09L12 7.59 7.05 3.5zm9.9 0L12 7.59l7.05 4.58L24 8.08l-7.05-4.58zM0 16.25l7.05 4.58L12 16.74 4.95 12.16 0 16.25zm24 0l-7.05 4.58L12 16.74l7.05-4.58L24 16.25zM12 18.23l-4.95-3.23L4.95 16.4 12 21l7.05-4.6-2.1-1.4-4.95 3.23z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="uploader__droptxt">or drop JPG images here</div>
+        </div>
+      </div>
+
+      <!-- How to Section -->
+      <section class="howto-section">
+        <div class="section-container">
+          <h3 class="section-title">How to convert JPG to PDF online</h3>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <h4>Upload images</h4>
+              <p>Click 'Select JPG images' or simply drag and drop your photos directly into the tool.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <h4>Customize Layout</h4>
+              <p>Reorder images by dragging, rotate pages, choose page orientation (Portrait/Landscape), and set margins.</p>
+            </div>
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <h4>Convert & Download</h4>
+              <p>Click 'Convert to PDF' and download your merged, high-resolution PDF document instantly!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features-section">
+        <div class="section-container">
+          <h3 class="section-title">Why use our JPG to PDF Converter?</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-card__icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                </svg>
+              </div>
+              <h4 class="feature-card__title">Lightning Fast</h4>
+              <p class="feature-card__desc">Conversion happens right in your browser with high-speed processing. No waiting in server queues.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-card__icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <h4 class="feature-card__title">100% Private & Secure</h4>
+              <p class="feature-card__desc">Your files never leave your device. All image-to-PDF transformations run completely locally.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-card__icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <h4 class="feature-card__title">Full Customization</h4>
+              <p class="feature-card__desc">Reorder pages by dragging, rotate 90°, set custom margins, and select Portrait or Landscape orientation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- 2. WORKSPACE / EDITOR VIEW -->
+    <section id="workspaceView" class="workspace-view">
+      <!-- Left / Canvas Area -->
+      <div class="workspace__canvas">
+        <div class="workspace__toolbar">
+          <div class="toolbar__info">
+            <span id="fileCountBadge" class="file-count-badge">0 files</span>
+            <span style="font-size: 13.5px; color: #6b7280;">Drag cards to reorder pages</span>
+          </div>
+
+          <div class="toolbar__actions">
+            <button id="btnOrderByName" class="btn-tool" type="button" title="Sort files by name">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M3 12h12M3 18h6"/>
+              </svg>
+              <span>Sort by name</span>
+            </button>
+
+            <button id="btnClearAll" class="btn-tool" type="button" title="Remove all images">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              <span>Clear</span>
+            </button>
+
+            <button id="btnAddMore" class="btn-add-more" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Add more</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Thumbnails Grid -->
+        <div id="thumbnailsGrid" class="thumbnails-grid">
+          <!-- Dynamic cards inserted here by app.js -->
+        </div>
+      </div>
+
+      <!-- Right Sidebar: Image to PDF Options -->
+      <aside class="workspace__sidebar">
+        <div class="sidebar__header">
+          <h3 class="sidebar__title">Image to PDF options</h3>
+        </div>
+
+        <div class="sidebar__body">
+          <!-- Page Orientation -->
+          <div class="option-group">
+            <label class="option-title">Page orientation</label>
+            <div class="option-visual-grid">
+              <div class="visual-option-card active" data-option="orientation" data-value="portrait">
+                <svg width="28" height="34" viewBox="0 0 28 34" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="22" height="28" rx="2"></rect>
+                  <line x1="8" y1="9" x2="20" y2="9"></line>
+                  <line x1="8" y1="14" x2="20" y2="14"></line>
+                  <line x1="8" y1="19" x2="16" y2="19"></line>
+                </svg>
+                <span class="visual-option-label">Portrait</span>
+              </div>
+
+              <div class="visual-option-card" data-option="orientation" data-value="landscape">
+                <svg width="34" height="28" viewBox="0 0 34 28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="28" height="22" rx="2"></rect>
+                  <line x1="9" y1="8" x2="25" y2="8"></line>
+                  <line x1="9" y1="13" x2="25" y2="13"></line>
+                  <line x1="9" y1="18" x2="20" y2="18"></line>
+                </svg>
+                <span class="visual-option-label">Landscape</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Page Size -->
+          <div class="option-group">
+            <label class="option-title">Page size</label>
+            <select id="selectPageSize" class="select-input">
+              <option value="A4" selected>A4 (297 × 210 mm)</option>
+              <option value="fit">Fit (Same page size as image)</option>
+              <option value="letter">US Letter (215.9 × 279.4 mm)</option>
+            </select>
+          </div>
+
+          <!-- Margin -->
+          <div class="option-group">
+            <label class="option-title">Margin</label>
+            <div class="option-visual-grid grid-3">
+              <div class="visual-option-card active" data-option="margin" data-value="0">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="22" height="22" rx="2"></rect>
+                  <rect x="4" y="4" width="20" height="20" fill="currentColor" fill-opacity="0.15"></rect>
+                </svg>
+                <span class="visual-option-label">No margin</span>
+              </div>
+
+              <div class="visual-option-card" data-option="margin" data-value="10">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="22" height="22" rx="2" stroke-dasharray="2 2"></rect>
+                  <rect x="7" y="7" width="14" height="14" rx="1" fill="currentColor" fill-opacity="0.2"></rect>
+                </svg>
+                <span class="visual-option-label">Small</span>
+              </div>
+
+              <div class="visual-option-card" data-option="margin" data-value="25">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="22" height="22" rx="2" stroke-dasharray="2 2"></rect>
+                  <rect x="9" y="9" width="10" height="10" rx="1" fill="currentColor" fill-opacity="0.25"></rect>
+                </svg>
+                <span class="visual-option-label">Big</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Merge into single PDF checkbox -->
+          <div class="option-group">
+            <label class="custom-checkbox-wrapper">
+              <input type="checkbox" id="chkMergeAfter" checked>
+              <span>Merge all images into one PDF file</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sidebar Footer Action -->
+        <div class="sidebar__footer">
+          <button id="btnConvert" class="btn-convert-action" type="button">
+            <span>Convert to PDF</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 3. PROCESSING MODAL -->
+    <div id="processingOverlay" class="processing-overlay">
+      <div class="spinner-wrap">
+        <div class="spinner"></div>
+      </div>
+      <h3 class="processing-title">Converting images to PDF...</h3>
+      <p id="progressSubtitle" class="processing-subtitle">Please wait a moment</p>
+
+      <div class="progress-bar-container">
+        <div id="progressBarFill" class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- 4. SUCCESS / DOWNLOAD VIEW -->
+    <section id="downloadView" class="download-view">
+      <div class="download-card">
+        <div class="success-badge">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+
+        <h2 class="download-title">The images have been converted to PDF!</h2>
+        <p class="download-subtitle">Your PDF document is ready for download.</p>
+
+        <button id="btnDownloadPdf" class="btn-download-pdf" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download PDF</span>
+        </button>
+
+        <div class="download-file-info">
+          <div class="file-info-left">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#e5322d">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 14H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+            <div>
+              <div id="downloadFileName" class="file-info-name">document.pdf</div>
+              <div id="downloadFileMeta" class="file-info-meta">1 page • 150 KB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="download-actions-row">
+          <button id="btnStartOver" class="btn-start-over" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            <span>Convert another file</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 <strong>iLovePDF</strong> Clone &mdash; Convert JPG to PDF smoothly and securely in your browser.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
